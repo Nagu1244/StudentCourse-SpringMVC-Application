@@ -8,28 +8,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotBlank(message="first name is mandatory")
+	@NotBlank(message="First name not be blank")
 	private String firstName;
-	@NotBlank(message="last name is mandatory")
+	@NotBlank(message="Last name not be blank")
 	private String lastName;
 	private String gender;
-	@NotBlank(message="Enter course")
+	@NotEmpty(message="Enter course")
 	private String course;
 	@Email(message="Enter the Valid Email Id")
 	@NotBlank
 	private String email;
+	@NotBlank(message="Password is mandatory")
 	private String password;
 	private String mobileNumber;
-	private Date dob;
+	private String dob;
 
 	public Student(String firstName, String lastName, String gender, String course, String email, String password,
-			String mobileNumber, Date dob) {
+			String mobileNumber, String dob) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -109,11 +111,11 @@ public class Student {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Date getDob() {
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 
