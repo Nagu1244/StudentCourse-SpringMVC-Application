@@ -8,14 +8,17 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.learn.models.Student;
+import com.learn.models.Subjects;
+import com.learn.repositories.SubjectRepository;
 import com.learn.services.StudentService;
+import com.learn.services.SubjectService;
 
 @Controller
 @RequestMapping("/students")
@@ -23,27 +26,35 @@ public class StudentController {
      
 	@Autowired
 	private StudentService studentService;
-	List<String> courses;
-
-	@ModelAttribute
-	public void preLoad() {
-		courses = new ArrayList<>();
-		courses.add("CORE JAVA");
-		courses.add("SPRING CORE");
-		courses.add("SPRING MVC");
-		courses.add("ANGULAR");
-		courses.add("NODE JS");
-	}
+	
+	@Autowired
+	private SubjectService subjectService;
+	
+	@Autowired
+	private SubjectRepository subrepo;
+	
+	/*
+	 * List<String> subjects;
+	 * 
+	 * @ModelAttribute public void preLoad() { subjects = new ArrayList<>();
+	 * subjects.add("TELUGU"); subjects.add("HINDI"); subjects.add("ENGLISH");
+	 * subjects.add("MATHS"); subjects.add("BIOLOGY"); subjects.add("SOCIAL"); }
+	 */
 
 	@GetMapping("/new")
-	public String home(Model model, @Valid Student student,BindingResult result) {
-		model.addAttribute("courses", courses);
-		model.addAttribute("student", student);
-		if(result.hasErrors())
+	public String home(Model model, @Valid Student student,Errors errors) {
+		
+		if(errors.hasErrors())
 		{
-			return "student_newform";
+			return "student/student_newform";
 		}
-		return "student_newform";
+		else
+		{
+			List<Subjects> listSubjects=subjectService.getAllSubjectDetails();
+			model.addAttribute("listSubjects", listSubjects);
+			model.addAttribute("student", student);
+			return "student/student_newform";
+		}
 	}
 	
 	@PostMapping(value="/save")
@@ -52,6 +63,15 @@ public class StudentController {
 		
 		studentService.saveStudentDetails(student);
 		
+		List<Subjects> subject=subrepo.findAll();
+		
+		for(Subjects subject1:subject)
+		{
+			subject1.setStudent(student);
+			subrepo.save(subject1);
+		}
+	
+		
 		return "redirect:/students";
 	}
   @GetMapping
@@ -59,7 +79,7 @@ public class StudentController {
   {
 	List<Student> listStudents=studentService.getListOfStudents();
 	model.addAttribute("listStudents", listStudents);
-	return "list_students";
+	return "student/list_students";
   }
 	
 }

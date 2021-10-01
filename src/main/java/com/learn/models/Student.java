@@ -1,34 +1,43 @@
 package com.learn.models;
 
-import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Student {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
-	@NotBlank(message="First name not be blank")
+
 	private String firstName;
-	@NotBlank(message="Last name not be blank")
+
 	private String lastName;
+
 	private String gender;
-	@NotEmpty(message="Enter course")
-	private String course;
-	@Email(message="Enter the Valid Email Id")
-	@NotBlank
+
 	private String email;
-	@NotBlank(message="Password is mandatory")
+
 	private String password;
+    //@Pattern(regexp ="[7-9][0-9]{9}")
 	private String mobileNumber;
+
 	private String dob;
+	@OneToMany(mappedBy ="student")
+	private List<Subjects> subject;
+
+	public List<Subjects> getSubject() {
+		return subject;
+	}
+
+	public void setSubjects(List<Subjects> subject) {
+		this.subject = subject;
+	}
 
 	public Student(String firstName, String lastName, String gender, String course, String email, String password,
 			String mobileNumber, String dob) {
@@ -36,7 +45,6 @@ public class Student {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;
-		this.course = course;
 		this.email = email;
 		this.password = password;
 		this.mobileNumber = mobileNumber;
@@ -79,13 +87,6 @@ public class Student {
 		this.gender = gender;
 	}
 
-	public String getCourse() {
-		return course;
-	}
-
-	public void setCourse(String course) {
-		this.course = course;
-	}
 
 	public String getEmail() {
 		return email;

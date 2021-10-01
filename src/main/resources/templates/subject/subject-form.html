@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.org.thymeleaf.com">
+<head>
+  <title>Student Subjects</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Student Subject Marks</h2>
+ <form  th:action="@{/subjects/save}" method="post" th:object="${subject}">
+    <div class="form-group">
+      <label class="sr-only" for="email">Subject Name</label>
+      <input type="text" class="form-control"  placeholder="Enter Subject"  th:field="${subject.subjectName}">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="pwd">Subject Marks</label>
+      <input type="text" class="form-control" placeholder="Enter marks" th:field="${subject.marks}">
+       </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>

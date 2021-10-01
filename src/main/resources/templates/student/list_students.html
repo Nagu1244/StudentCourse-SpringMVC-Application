@@ -25,7 +25,7 @@
                     <th>Gender</th>
                     <th>DOB</th>
                     <th>Email</th>
-                    <th>Courses</th>
+                    <!-- <th>Subjects</th> -->
                     <th>Mobile Number</th>
                     <th>Action</th>
                  </tr>
@@ -35,9 +35,9 @@
                    <td th:text="${student.firstName}"/>
                    <td th:text="${student.lastName}"/>
                    <td th:text="${student.gender}"/>
-                   <td th:text="${student.dob}"/>
+                   <td th:text="${student.dob}"/> 
                    <td th:text="${student.email}"/>
-                   <td th:text="${student.course}"/>
+                   <!-- <td th:text="${student.subject}"/> -->
                    <td th:text="${student.mobileNumber}"/>
                    <!-- <td>
                    <a th:href="@{/employees/update(id=${employee.employeeId})}" class="btn btn-primary btn-sm">Update</a>
